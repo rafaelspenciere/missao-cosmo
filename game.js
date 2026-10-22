@@ -2,6 +2,8 @@ const cv=document.getElementById('c'),g=cv.getContext('2d'),ov=document.getEleme
 const IMG=new Image();let loaded=false;IMG.onload=()=>loaded=true;IMG.src="assets/mapa.jpg";
 const NIMG="assets/alien.png",PIMG="assets/astronauta.png",SPR={p:new Image(),n:new Image()};SPR.p.src=PIMG;SPR.n.src=NIMG;
 const AV=`<img class="av" src="${NIMG}" alt="">`;
+const LOGO="assets/logo.svg";let PN='Cosmonauta';
+const esc=x=>x.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function spr(img,x,y,h,o){ /* x,y = pés do personagem; pivô nos pés */
   if(!img.complete||!img.naturalWidth)return;
   const w=h*img.naturalWidth/img.naturalHeight;
@@ -68,6 +70,7 @@ const canWalk=(x,y)=>WALK.some(r=>inR(x,y,r))&&!BLOCK.some(r=>inR(x,y,r));
 const blocked=(x,y)=>![[-14,-8],[14,-8],[-14,14],[14,14]].every(([a,b])=>canWalk(x+a,y+b))||(Math.abs(x-N.x)<34&&Math.abs(y-N.y)<34);
 const near=()=>Math.hypot(P.x-N.x,P.y-N.y)<110;
 addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
   const k=e.key.toLowerCase();keys[k]=1;
   if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault();
   if(st==='explore'&&(k==='e'||k==='enter'||k===' '))talk();
@@ -85,18 +88,22 @@ document.querySelectorAll('[data-d]').forEach(b=>{
 document.getElementById('act').addEventListener('pointerdown',e=>{e.preventDefault();au();if(st==='explore')talk()});
 
 const show=h=>{ov.innerHTML=h;ov.style.display='flex'};
-const hide=()=>{ov.style.display='none'};
+const hide=()=>{ov.style.display='none';ov.classList.remove('menu')};
 
 /* ---------- FLUXO ---------- */
-function intro(){show(`<div class="card"><div class="foe">🚀</div><h2>Missão Cosmos 62</h2><p>Ano de 1962, auge da Guerra Fria. Você está a bordo da nave soviética <b>Vostok-K</b>. Explore a nave e encontre o Comandante.</p><p>💻 Mover: WASD ou setas · Falar: E<br>📱 Use o direcional e o botão FALAR<br>🔊 Ative o som do seu aparelho</p><button class="o" onclick="au();sfx('talk');hide();st='explore'">Começar missão</button></div>`)}
+function intro(){
+  show(`<div class="mn"><img class="logo" src="${LOGO}" alt="Missão Cosmos 62"><p class="sub">Ano de 1962, auge da Guerra Fria. A bordo da nave soviética <b>Vostok-K</b>, encontre o Comandante e enfrente o agente inimigo.</p><img class="pv" src="${PIMG}" alt=""><label class="nm">Nome do cosmonauta<input id="pn" maxlength="14" placeholder="Cosmonauta" autocomplete="off" onkeydown="if(event.key==='Enter')startGame()"></label><button class="go" onclick="startGame()">▶ INICIAR MISSÃO</button><div class="how"><span>⌨️ WASD / setas</span><span>💬 E = falar</span><span>📱 direcional + FALAR</span><span>🔊 ligue o som</span></div></div>`);
+  ov.classList.add('menu');
+}
+function startGame(){au();PN=(document.getElementById('pn').value||'').trim().slice(0,14)||'Cosmonauta';sfx('talk');hide();st='explore'}
 function talk(){
   if(!near())return;
   st='dialog';sfx('talk');
-  show(`<div class="card">${AV}<h2>Comandante Volkov</h2><p>Camarada, um agente inimigo se infiltrou na nave! Está pronto para batalhar?</p><button class="o" onclick="startBattle()">⚔️ Batalhar</button><button class="o" onclick="sfx('click');decline()">Não quero</button></div>`);
+  show(`<div class="card">${AV}<h2>Comandante Volkov</h2><p>Camarada <b>${esc(PN)}</b>, um agente inimigo se infiltrou na nave! Está pronto para batalhar?</p><button class="o" onclick="startBattle()">⚔️ Batalhar</button><button class="o" onclick="sfx('click');decline()">Não quero</button></div>`);
 }
 function decline(){show(`<div class="card">${AV}<p>Tudo bem, camarada. Volte quando estiver pronto.</p><button class="o" onclick="sfx('click');hide();st='explore'">Fechar</button></div>`)}
 
-const sc=()=>`🧑‍🚀 Você: ★${B.me} &nbsp;·&nbsp; 👽 Agente Boris: ★${B.en}`;
+const sc=()=>`🧑‍🚀 ${esc(PN)}: ★${B.me} &nbsp;·&nbsp; 👽 Agente Boris: ★${B.en}`;
 function startBattle(){
   hide();pad.classList.add('off');bp.style.display='block';
   B={qs:shuf(Q.slice()),i:0,me:0,en:0,dm:0,de:0,over:0};
@@ -190,7 +197,7 @@ function drawBattle(k){
   });
   BA.sp=BA.sp.filter(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.12;p.l--;g.globalAlpha=Math.max(0,p.l/60);g.fillStyle=p.c;g.fillRect(p.x,p.y,5,5);g.globalAlpha=1;return p.l>0});
   BA.tx=BA.tx.filter(f=>{f.y-=1;f.l--;g.globalAlpha=Math.min(1,f.l/30);g.fillStyle=f.c;g.font='bold 30px system-ui,sans-serif';g.textAlign='center';g.fillText(f.s,f.x,f.y);g.globalAlpha=1;return f.l>0});
-  bar(14,'VOCÊ',B.dm,'#4fe3ff');bar(W-274,'AGENTE BORIS',B.de,'#ff4d4d');
+  bar(14,PN.toUpperCase().slice(0,12),B.dm,'#4fe3ff');bar(W-274,'AGENTE BORIS',B.de,'#ff4d4d');
   g.fillStyle='#fff';g.textAlign='center';g.font='bold 22px system-ui,sans-serif';g.fillText('VS',W/2,44);
   if(k<90&&(k%20<12)){g.fillStyle='rgba(180,20,30,.75)';g.fillRect(0,200,W,64);g.fillStyle='#fff';g.font='bold 34px system-ui,sans-serif';g.fillText('⚠ INIMIGO DETECTADO ⚠',W/2,243)}
   if(B&&B.over){g.fillStyle='#f2c14e';g.font='bold 34px system-ui,sans-serif';g.fillText(BA.dead==='e'?'INIMIGO DERROTADO!':'VOCÊ FOI DERROTADO!',W/2,150)}
@@ -221,6 +228,7 @@ function drawMap(){
   const mv=P.mv,ph=P.ph||0,sq=mv?Math.abs(Math.sin(ph)):0;
   g.fillStyle='rgba(0,0,0,.4)';g.beginPath();g.ellipse(px,py+26,24-sq*5,8-sq*2,0,0,7);g.fill();
   spr(SPR.p,px,py+26,88,{bob:mv?-sq*8:0,rot:mv?Math.sin(ph)*.1:0,sy:mv?1+Math.cos(ph*2)*.04:1+Math.sin(t*.05)*.015,sx:mv?1-Math.cos(ph*2)*.03:1,flip:P.f||1});
+  g.font='bold 13px system-ui,sans-serif';g.textAlign='center';const nw=g.measureText(PN).width+14;g.fillStyle='rgba(0,0,0,.6)';g.fillRect(px-nw/2,py-88,nw,18);g.fillStyle='#4fe3ff';g.fillText(PN,px,py-75);
   g.textAlign='center';g.font='bold 22px system-ui';g.fillStyle='#f2c14e';g.fillText('!',nx,ny-100+Math.sin(t*.12)*3);
   if(near()&&st==='explore'){g.font='bold 15px system-ui,sans-serif';g.fillStyle='rgba(0,0,0,.7)';g.fillRect(nx-60,ny-136,120,22);g.fillStyle='#f2c14e';g.fillText('Falar (E)',nx,ny-120)}
   g.fillStyle='rgba(0,0,0,.6)';g.fillRect(8,8,330,26);g.textAlign='left';g.font='bold 13px system-ui,sans-serif';g.fillStyle='#f2c14e';
@@ -251,7 +259,7 @@ function drawWin(k){
   if(p>.85){g.fillStyle='#eee';g.beginPath();g.arc(cx,sy-70,75,Math.PI,0);g.fill();g.strokeStyle='#ddd';g.lineWidth=2;g.beginPath();g.moveTo(cx-75,sy-70);g.lineTo(cx,sy-30);g.moveTo(cx+75,sy-70);g.lineTo(cx,sy-30);g.stroke()}
   rocket(cx,sy,Math.PI,1.4,p<.85);
   msg(p<.5?'Nave deixando a órbita...':p<.85?'Reentrada na atmosfera!':'Pouso seguro! Missão cumprida!',40);
-  if(k>420&&!endShown){endShown=true;endCard('🌍','Missão cumprida!','A Vostok-K voltou para a Terra. O agente inimigo foi derrotado e a União Soviética celebra sua vitória!')}
+  if(k>420&&!endShown){endShown=true;endCard('🌍','Missão cumprida!',esc(PN)+', a Vostok-K voltou para a Terra. O agente inimigo foi derrotado e a União Soviética celebra sua vitória!')}
 }
 function drawLose(k){
   g.fillStyle='#02030a';g.fillRect(0,0,W,H);stars();

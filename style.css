@@ -28,6 +28,21 @@ h1{margin:0;font-size:clamp(14px,3.2vw,20px);letter-spacing:3px;color:var(--gold
 .av{height:110px;width:auto;filter:drop-shadow(0 0 12px rgba(120,255,140,.55));animation:flt 2.4s ease-in-out infinite}
 @keyframes flt{50%{transform:translateY(-6px)}}
 .fb{margin:8px 0;font-size:14px}
+#ov.menu{background:radial-gradient(ellipse at 50% 0,#2a0f16 0,#080b14 65%);align-items:flex-start}
+#ov.menu::before{content:"";position:fixed;inset:0;background-image:radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 70% 20%,#fff,transparent),radial-gradient(1.5px 1.5px at 40% 80%,#fff,transparent),radial-gradient(1px 1px at 85% 65%,#fff,transparent),radial-gradient(1px 1px at 10% 70%,#fff,transparent),radial-gradient(2px 2px at 55% 50%,#ffe9a8,transparent);background-size:340px 340px;animation:drift 40s linear infinite;opacity:.75;pointer-events:none}
+@keyframes drift{to{background-position:340px 340px}}
+.mn{position:relative;margin:auto;max-width:460px;width:100%;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;animation:pop .5s ease-out}
+.logo{width:min(60vw,250px);filter:drop-shadow(0 0 22px rgba(209,47,53,.65));animation:flt 3.2s ease-in-out infinite}
+.sub{margin:0;font-size:14px;line-height:1.5;opacity:.9}
+.pv{height:84px;filter:drop-shadow(0 0 12px rgba(79,227,255,.55));animation:flt 2.4s ease-in-out infinite}
+.nm{display:flex;flex-direction:column;gap:6px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);width:100%}
+.nm input{background:#0e131b;border:2px solid #3b4553;border-radius:12px;padding:12px;font-size:18px;text-align:center;color:var(--txt);outline:none;-webkit-user-select:text;user-select:text}
+.nm input:focus{border-color:var(--gold);box-shadow:0 0 14px rgba(242,193,78,.4)}
+.go{width:100%;padding:16px;font-size:20px;font-weight:800;letter-spacing:3px;color:#fff;background:linear-gradient(180deg,#e8444a,#8e1a1f);border:2px solid var(--gold);border-radius:14px;cursor:pointer;animation:glow 1.6s infinite;transition:transform .12s}
+.go:hover{filter:brightness(1.15);transform:scale(1.02)}
+@keyframes glow{0%,100%{box-shadow:0 0 18px rgba(209,47,53,.6)}50%{box-shadow:0 0 34px rgba(242,193,78,.75)}}
+.how{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.how span{background:rgba(255,255,255,.07);border:1px solid #3b4553;border-radius:20px;padding:4px 10px;font-size:12px}
 @keyframes pop{from{transform:scale(.85);opacity:0}to{transform:none;opacity:1}}
 @keyframes pulse{50%{transform:scale(1.04)}}
 @keyframes shk{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
