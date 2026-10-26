@@ -4,7 +4,7 @@ html,body{margin:0;min-height:100%;background:radial-gradient(ellipse at 50% -10
 body{display:flex;flex-direction:column;align-items:center;gap:8px;padding:8px;-webkit-user-select:none;user-select:none}
 header{width:100%;max-width:960px;display:flex;justify-content:space-between;align-items:center}
 h1{margin:0;font:900 clamp(13px,3vw,19px) var(--ff);letter-spacing:3px;color:var(--cy);text-transform:uppercase;text-shadow:0 0 14px rgba(77,232,255,.85)}
-#mute{background:rgba(10,20,38,.8);color:var(--txt);border:1px solid var(--cy);border-radius:8px;font-size:18px;padding:2px 10px;cursor:pointer;box-shadow:0 0 12px rgba(77,232,255,.35)}
+#fsb,#mute{background:rgba(10,20,38,.8);color:var(--txt);border:1px solid var(--cy);border-radius:8px;font-size:18px;padding:2px 10px;cursor:pointer;box-shadow:0 0 12px rgba(77,232,255,.35)}
 #cw{position:relative;width:100%;max-width:960px}
 #cw::after{content:"";position:absolute;inset:0;border-radius:10px;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px)}
 #c{display:block;width:100%;height:auto;aspect-ratio:16/9;border:2px solid var(--cy);border-radius:10px;background:#000;box-shadow:0 0 26px rgba(77,232,255,.4),inset 0 0 30px rgba(77,232,255,.15);touch-action:none}
@@ -58,6 +58,51 @@ h1{margin:0;font:900 clamp(13px,3vw,19px) var(--ff);letter-spacing:3px;color:var
 @keyframes glow{0%,100%{box-shadow:0 0 18px rgba(255,59,107,.6)}50%{box-shadow:0 0 34px rgba(77,232,255,.8)}}
 .how{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
 .how span{background:rgba(77,232,255,.08);border:1px solid rgba(77,232,255,.3);border-radius:20px;padding:3px 10px;font-size:14px}
+#rot{display:none;width:100%;max-width:960px;align-items:center;gap:10px;background:rgba(255,209,102,.12);border:1px solid #ffd166;border-radius:8px;padding:6px 12px;font-size:15px}
+@media (pointer:coarse) and (orientation:portrait){#rot{display:flex}body{padding:4px}}
+@media (pointer:coarse) and (orientation:landscape){
+ html,body{overflow:hidden;height:100dvh;overscroll-behavior:none}
+ body{padding:0;gap:0;display:block;touch-action:none}
+ header{position:fixed;bottom:10px;top:auto;left:50%;transform:translateX(-50%);width:auto;z-index:8;opacity:.8}
+ body.bt header{left:calc((100vw - min(46vw,400px))/2)}
+ header h1{display:none}
+ #cw{position:fixed;inset:0;max-width:none;width:auto;z-index:1}
+ #c{width:100%;height:100%;aspect-ratio:auto;object-fit:contain;border:0;border-radius:0;box-shadow:none;background:#000}
+ #cw::after{border-radius:0}
+ #obj{position:fixed;top:6px;left:50%;transform:translateX(-50%);width:min(64vw,520px);padding:4px 10px;font-size:12px;z-index:5;opacity:.9}
+ #obj b{font-size:9px}.oi{font-size:18px}
+ #pad{position:fixed;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:none;padding:0 calc(14px + env(safe-area-inset-right,0px)) 0 calc(14px + env(safe-area-inset-left,0px));pointer-events:none;z-index:6}
+ .dp,#act{pointer-events:auto;opacity:.8}
+ .dp{grid-template-columns:repeat(3,62px);grid-template-rows:repeat(3,62px)}
+ #act{width:92px;height:92px}
+ #bp{position:fixed;top:0;right:0;bottom:0;width:min(46vw,400px);max-width:none;overflow:auto;padding:8px;background:rgba(2,6,14,.95);border-left:1px solid var(--cy);z-index:7}
+ body.bt #cw{right:min(46vw,400px)}
+ .card{padding:10px 12px}.q{font-size:15px}.sc{font-size:13px}.o{padding:8px;font-size:15px;margin:5px 0}
+ .foe{font-size:34px}.av{height:64px}.card h2{font-size:15px}
+ .gal{height:94dvh;padding:8px}.gs svg{max-height:calc(94dvh - 150px)}.gs figcaption span{font-size:14px}.gs figcaption b{font-size:13px}.gs{gap:6px}.logo{width:auto;height:min(22vh,90px)}.how,.sub{display:none}.pv{height:54px}.sw{width:26px;height:26px}.mn{gap:6px}.sub{font-size:13px}.go{padding:10px}
+}
+.sk{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:300px}
+.sw{width:30px;height:30px;padding:0;border-radius:50%;border:2px solid rgba(255,255,255,.35);background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.55),transparent 42%),var(--c);cursor:pointer;transition:transform .15s,box-shadow .15s}
+.sw:hover{transform:scale(1.15)}
+.sw.on{border-color:#fff;box-shadow:0 0 14px var(--c),0 0 0 3px rgba(255,255,255,.5);transform:scale(1.18)}
+.skn{font:700 12px var(--ff);letter-spacing:2px;color:var(--cy);text-transform:uppercase;margin-top:-4px}
+#ov.galm{padding:10px;background:rgba(2,5,14,.5)}
+.gal{max-width:780px;height:min(600px,94dvh);display:flex;flex-direction:column;padding:12px 12px 10px;animation:galin 1.1s ease-out}
+@keyframes galin{0%{opacity:0;filter:blur(24px) brightness(2.6);transform:scale(1.15)}55%{opacity:1}100%{filter:none;transform:none}}
+.gx{position:absolute;top:8px;right:8px;z-index:3;width:44px;height:44px;padding:0;border-radius:50%;border:2px solid #ff8fa8;background:linear-gradient(180deg,#ff5c84,#9b1238);color:#fff;font-size:20px;cursor:pointer;box-shadow:0 0 16px rgba(255,59,107,.7);transition:transform .25s}
+.gx:hover{filter:brightness(1.2);transform:rotate(90deg)}
+.gtop{font:700 12px var(--ff);letter-spacing:3px;color:var(--cy);text-align:left;padding:4px 56px 8px 4px}
+.gst{display:flex;flex:1;min-height:0;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:10px;cursor:grab}
+.gst::-webkit-scrollbar{display:none}
+.gs{flex:0 0 100%;scroll-snap-align:center;margin:0;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:0 4px;text-align:left}
+.gs svg{width:100%;height:auto;max-height:calc(94dvh - 200px);border-radius:10px;border:1px solid rgba(77,232,255,.4);box-shadow:0 0 22px rgba(77,232,255,.28)}
+.gs figcaption b{display:block;font:900 16px var(--ff);color:var(--cy);letter-spacing:1px;margin-bottom:4px}
+.gs figcaption span{font-size:18px;line-height:1.35}
+.gn{position:absolute;top:44%;width:44px;height:44px;padding:0;border-radius:50%;border:1px solid var(--cy);background:rgba(4,10,24,.82);color:var(--cy);font-size:18px;cursor:pointer;z-index:2;box-shadow:0 0 12px rgba(77,232,255,.4)}
+.gp{left:4px}.gnx{right:4px}
+.gdots{display:flex;gap:8px;justify-content:center;padding-top:8px}
+.gdots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.25);transition:all .2s}
+.gdots i.on{background:var(--cy);box-shadow:0 0 10px var(--cy);transform:scale(1.35)}
 @keyframes pop{from{transform:scale(.85);opacity:0}to{transform:none;opacity:1}}
 @keyframes pulse{50%{transform:scale(1.06)}}
 @keyframes shk{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
