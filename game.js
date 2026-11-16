@@ -51,14 +51,14 @@ const inR=(x,y,r)=>x>=r[0]&&x<=r[2]&&y>=r[1]&&y<=r[3];
 const N={x:770,y:610};
 let P={x:545,y:930},cam={x:20,y:460};
 const Q=[
-["Qual país lançou o primeiro satélite artificial, o Sputnik, em 1957?",["União Soviética","Estados Unidos","China","Alemanha"]],
-["Quem foi o primeiro ser humano a ir ao espaço, em 1961?",["Yuri Gagarin","Neil Armstrong","Alan Shepard","Buzz Aldrin"]],
-["Em que ano caiu o Muro de Berlim?",["1989","1961","1975","1991"]],
-["A Crise dos Mísseis de 1962 envolveu mísseis soviéticos em qual país?",["Cuba","México","Turquia","Vietnã"]],
-["Como se chama a aliança militar criada em 1949 e liderada pelos EUA?",["OTAN","Pacto de Varsóvia","ONU","Eixo"]],
-["Qual aliança militar reuniu a URSS e países do Leste Europeu em 1955?",["Pacto de Varsóvia","OTAN","Comintern","Tríplice Aliança"]],
-["Quem foi o primeiro homem a pisar na Lua, em 1969?",["Neil Armstrong","Yuri Gagarin","John Glenn","Alan Shepard"]],
-["Como ficou conhecido o plano dos EUA de ajuda econômica à Europa após a Segunda Guerra?",["Plano Marshall","Plano Schlieffen","Plano Real","Plano Cohen"]],
+["Em que ano a União Soviética lançou o Sputnik 1?",["1957","1955","1961","1965"]],
+["Qual era a principal função do foguete R-7?",["Lançar satélites e também transportar ogivas nucleares.","Transportar pessoas para a Lua.","Fazer previsões meteorológicas."," Transmitir sinais de televisão."]],
+["Como o Apollo Guidance Computer controlava a nave com pouca memória e processamento?",["Com programação otimizada e prioridades.","Usando vários processadores.","Usando cálculos pré-armazenados.","Conectado a computadores na Terra."]],
+["Qual era o principal objetivo militar do ENIAC?",["Calcular tabelas de disparo de artilharia balística.","Descriptografar códigos nazistas.","Controlar radares da Marinha.","Criar a internet militar."]],
+["O que provocou a Crise dos Mísseis de Cuba?",[" Mísseis soviéticos em Cuba."," Invasão da Baía dos Porcos.","Bloqueio de navios americanos.","Tratado de paz entre os países."]],
+["O que permitia ao U-2 voar em grandes altitudes?",["Asas longas e finas.","Motor supersônico.","Camuflagem contra radares."," Capacidade de voar debaixo d'água."]],
+["Como a Coreia foi dividida?",["Pelo paralelo 38° Norte ","Por margens definidas pós guerra","A Coreia nunca se dividiu"," Dividiu pela interferência do Japão"]],
+["Como a bomba termonuclear funciona?",["Por uma fusão de hidrogênio causada por uma explosão intensa"," Por fissão de urânio","Por uma cadeia de explosões em sequência","Pela liberação de dióxido de carbono"]],
 ["Em que ano a União Soviética foi dissolvida?",["1991","1989","1985","1979"]],
 ["Qual guerra dividiu a península em Coreia do Norte e Coreia do Sul?",["Guerra da Coreia","Guerra do Vietnã","Guerra do Golfo","Guerra do Afeganistão"]]
 ];
@@ -175,7 +175,7 @@ const hide=()=>{ov.style.display='none';ov.classList.remove('menu','galm')};
 
 /* ---------- FLUXO ---------- */
 function intro(){
-  show(`<div class="mn"><img class="logo" src="${LOGO}" alt="Missão Cosmos 62"><p class="sub">Ano de 1962, auge da Guerra Fria. A bordo da nave soviética <b>Vostok-K</b>, encontre o Comandante e enfrente o agente inimigo.</p><img class="pv" src="${PIMG}" alt=""><div class="sk">${SKINS.map((k,i)=>`<button class="sw" style="--c:rgb(${k.c})" title="${k.n}" onclick="pickSkin(${i})"></button>`).join('')}</div><div class="skn" id="skn"></div><label class="nm">Nome do cosmonauta<input id="pn" maxlength="14" placeholder="Cosmonauta" autocomplete="off" onkeydown="if(event.key==='Enter')startGame()"></label><button class="go" onclick="startGame()">▶ INICIAR MISSÃO</button><div class="how"><span>⌨️ WASD / setas</span><span>💬 E = falar</span><span>📱 direcional + FALAR</span><span>📱 melhor jogar deitado</span><span>🔊 ligue o som</span></div></div><img class="fly" src="${RIMG}" alt="">`);
+  show(`<div class="mn"><img class="logo" src="assets/logo.svg" alt="Missão Cosmos 62"><p class="sub">Ano de 1962, auge da Guerra Fria. A bordo da nave soviética <b>Vostok-K</b>, encontre o Comandante e enfrente o agente inimigo.</p><img class="pv" src="${PIMG}" alt=""><div class="sk">${SKINS.map((k,i)=>`<button class="sw" style="--c:rgb(${k.c})" title="${k.n}" onclick="pickSkin(${i})"></button>`).join('')}</div><div class="skn" id="skn"></div><label class="nm">Nome do cosmonauta<input id="pn" maxlength="14" placeholder="Cosmonauta" autocomplete="off" onkeydown="if(event.key==='Enter')startGame()"></label><button class="go" onclick="startGame()">▶ INICIAR MISSÃO</button><div class="how"><span>⌨️ WASD / setas</span><span>💬 E = falar</span><span>📱 direcional + FALAR</span><span>📱 melhor jogar deitado</span><span>🔊 ligue o som</span></div></div><img class="fly" src="${RIMG}" alt="">`);
   ov.classList.add('menu');
   let sv=null;try{sv=JSON.parse(localStorage.getItem('cosmos62'))}catch(e){}
   if(sv){SK=sv.s|0;const inp=document.getElementById('pn');if(inp&&sv.n)inp.value=sv.n}
