@@ -1,0 +1,18 @@
+MISSÃO COSMO 62 - REGISTRO DE RESULTADOS
+
+O que foi adicionado:
+- Registro do nome do jogador, acertos, erros, pontuação, resultado e data/hora.
+- 100 pontos por resposta correta.
+- Botão para baixar o resultado individual em .TXT ao terminar a partida.
+- Botão para exportar um relatório geral/ranking em .TXT.
+- Os resultados ficam guardados no armazenamento local (localStorage) do navegador.
+
+COMO PUBLICAR
+1. Extraia este ZIP.
+2. Envie os arquivos e pastas para o repositório GitHub Pages, substituindo os arquivos antigos.
+3. Faça commit/push e aguarde a atualização do GitHub Pages.
+
+IMPORTANTE SOBRE O ARQUIVO GERAL
+Como o jogo está hospedado apenas no GitHub Pages (site estático), ele não possui um banco de dados compartilhado. O relatório geral reúne apenas as partidas registradas naquele mesmo navegador/dispositivo. Para juntar automaticamente os resultados de todos os jogadores em um único local, será necessário conectar o jogo a um serviço externo (por exemplo, Google Sheets com Apps Script ou um banco de dados/API).
+
+Para avaliação coletiva imediata, cada jogador deve enviar o arquivo individual .TXT aos criadores, ou os criadores devem exportar o relatório no dispositivo em que as partidas foram realizadas.

@@ -175,7 +175,7 @@ const hide=()=>{ov.style.display='none';ov.classList.remove('menu','galm')};
 
 /* ---------- FLUXO ---------- */
 function intro(){
-  show(`<div class="mn"><img class="logo" src="assets/logo.svg" alt="Missão Cosmos 62"><p class="sub">Ano de 1962, auge da Guerra Fria. A bordo da nave soviética <b>Vostok-K</b>, encontre o Comandante e enfrente o agente inimigo.</p><img class="pv" src="${PIMG}" alt=""><div class="sk">${SKINS.map((k,i)=>`<button class="sw" style="--c:rgb(${k.c})" title="${k.n}" onclick="pickSkin(${i})"></button>`).join('')}</div><div class="skn" id="skn"></div><label class="nm">Nome do cosmonauta<input id="pn" maxlength="14" placeholder="Cosmonauta" autocomplete="off" onkeydown="if(event.key==='Enter')startGame()"></label><button class="go" onclick="startGame()">▶ INICIAR MISSÃO</button><div class="how"><span>⌨️ WASD / setas</span><span>💬 E = falar</span><span>📱 direcional + FALAR</span><span>📱 melhor jogar deitado</span><span>🔊 ligue o som</span></div></div><img class="fly" src="${RIMG}" alt="">`);
+  show(`<div class="mn"><img class="logo" src="assets/logo.svg" alt="Missão Cosmos 62"><p class="sub">Ano de 1962, auge da Guerra Fria. A bordo da nave soviética <b>Vostok-K</b>, encontre o Comandante e enfrente o agente inimigo.</p><img class="pv" src="${PIMG}" alt=""><div class="sk">${SKINS.map((k,i)=>`<button class="sw" style="--c:rgb(${k.c})" title="${k.n}" onclick="pickSkin(${i})"></button>`).join('')}</div><div class="skn" id="skn"></div><label class="nm">Nome do cosmonauta<input id="pn" maxlength="14" placeholder="Cosmonauta" autocomplete="off" onkeydown="if(event.key==='Enter')startGame()"></label><button class="go" onclick="startGame()">▶ INICIAR MISSÃO</button><button class="o" onclick="exportAllResults()">📄 EXPORTAR RESULTADOS REGISTRADOS (.TXT)</button><div class="how"><span>⌨️ WASD / setas</span><span>💬 E = falar</span><span>📱 direcional + FALAR</span><span>📱 melhor jogar deitado</span><span>🔊 ligue o som</span></div></div><img class="fly" src="${RIMG}" alt="">`);
   ov.classList.add('menu');
   let sv=null;try{sv=JSON.parse(localStorage.getItem('cosmos62'))}catch(e){}
   if(sv){SK=sv.s|0;const inp=document.getElementById('pn');if(inp&&sv.n)inp.value=sv.n}
@@ -184,6 +184,50 @@ function intro(){
 function goFS(){const d=document.documentElement,f=d.requestFullscreen||d.webkitRequestFullscreen;try{Promise.resolve(f&&f.call(d)).then(()=>screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape')).catch(()=>{})}catch(e){}}
 const setBt=on=>document.body.classList.toggle('bt',on);
 document.getElementById('fsb').onclick=()=>{if(document.fullscreenElement||document.webkitFullscreenElement)(document.exitFullscreen||document.webkitExitFullscreen).call(document);else goFS()};
+/* ---------- REGISTRO DE RESULTADOS ---------- */
+const RESULTS_KEY='cosmos62_results_v1';
+function getResults(){try{return JSON.parse(localStorage.getItem(RESULTS_KEY)||'[]')}catch(e){return []}}
+function makeResult(){
+  const hits=B.hist.filter(Boolean).length;
+  const errors=B.hist.length-hits;
+  return {nome:PN,acertos:hits,erros:errors,pontuacao:hits*100,placarJogador:B.me,placarInimigo:B.en,resultado:B.me>B.en?'VITÓRIA':'DERROTA',data:new Date().toLocaleString('pt-BR')};
+}
+function registerResult(){
+  if(B.result)return B.result;
+  B.result=makeResult();
+  try{const all=getResults();all.push(B.result);localStorage.setItem(RESULTS_KEY,JSON.stringify(all))}catch(e){console.warn('Não foi possível guardar o resultado neste navegador.',e)}
+  return B.result;
+}
+function resultText(r){return [
+  'MISSÃO COSMOS 62 - RESULTADO DO JOGADOR',
+  '========================================',
+  'Nome: '+r.nome,
+  'Acertos: '+r.acertos,
+  'Erros: '+r.erros,
+  'Pontuação: '+r.pontuacao+' pontos',
+  'Placar do jogador: '+r.placarJogador,
+  'Placar do adversário: '+r.placarInimigo,
+  'Resultado: '+r.resultado,
+  'Data: '+r.data,
+  ''
+  ].join('\n')}
+function downloadText(filename,content){
+  const blob=new Blob(['\ufeff',content],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=filename;a.style.display='none';document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+function exportCurrentResult(){if(!B||!B.result)return;const safe=(B.result.nome||'jogador').replace(/[^a-z0-9_-]/gi,'_');downloadText('missao-cosmo_'+safe+'.txt',resultText(B.result))}
+function exportAllResults(){
+  const all=getResults();
+  if(!all.length){alert('Ainda não há resultados registrados neste navegador.');return}
+  const sorted=[...all].sort((a,b)=>b.pontuacao-a.pontuacao);
+  const lines=['MISSÃO COSMOS 62 - RELATÓRIO GERAL','===================================','Jogadores registrados neste navegador: '+sorted.length,''];
+  sorted.forEach((r,i)=>lines.push((i+1)+'. '+r.nome+' | '+r.pontuacao+' pontos | '+r.acertos+' acertos | '+r.erros+' erros | '+r.resultado+' | '+r.data));
+  lines.push('','Pontuação: 100 pontos por acerto.');
+  downloadText('missao-cosmo_resultados-gerais.txt',lines.join('\n'));
+}
+
 function startGame(){au();if(matchMedia('(pointer:coarse)').matches)goFS();PN=(document.getElementById('pn').value||'').trim().slice(0,14)||'Cosmonauta';sfx('talk');sfx('whoosh');try{localStorage.setItem('cosmos62',JSON.stringify({n:PN==='Cosmonauta'?'':PN,s:SK}))}catch(e){}hide();st='explore'}
 function type(el,tx){let i=0;(function f(){if(!el||!el.isConnected)return;el.textContent=tx.slice(0,++i);if(i%2===0)sfx('blip');if(i<tx.length)setTimeout(f,26)})()}
 function talk(){
@@ -243,7 +287,7 @@ function lose(){
   setTimeout(()=>{bp.style.display='none';setBt(false);st='lose';t0=t;endShown=false;PT=[]},2000);
 }
 function restart(){hide();bp.style.display='none';setBt(false);pad.classList.remove('off');P={x:545,y:930};st='explore'}
-function endCard(e,ti,tx){show(`<div class="card"><div class="foe">${e}</div><h2>${ti}</h2><p>${tx}</p><button class="o" onclick="sfx('click');restart()">Jogar de novo</button></div>`)}
+function endCard(e,ti,tx){show(`<div class="card"><div class="foe">${e}</div><h2>${ti}</h2><p>${tx}</p><p>📊 ${B.result.acertos} acertos · ${B.result.erros} erros · ${B.result.pontuacao} pontos</p><button class="o" onclick="sfx('click');exportCurrentResult()">📄 Baixar meu resultado (.TXT)</button><button class="o" onclick="sfx('click');exportAllResults()">🏆 Exportar ranking deste dispositivo (.TXT)</button><button class="o" onclick="sfx('click');restart()">Jogar de novo</button></div>`)}
 
 /* ---------- EFEITOS DE BATALHA ---------- */
 const PX=190,EX=W-190;
