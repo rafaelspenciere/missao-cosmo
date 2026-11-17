@@ -9,7 +9,7 @@ const esc=x=>x.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&q
 
 /* ---------- REGISTRO AUTOMÁTICO DE RESULTADOS ---------- */
 // Cole aqui a URL do Web App do Google Apps Script após publicá-lo.
-const GOOGLE_SCRIPT_URL = COLE_A_URL_DO_GOOGLE_APPS_SCRIPT_AQUI;
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxd6Hg8QnDFYFVxvN0TMcMI8Wzr2AuSof7xsXFYXHg3RJO5CFMpBJh2QN8HPN_9WnREiA/exec';
 function registrarResultado(resultado){
   if(!B || B.registrado) return;
   B.registrado=true;
