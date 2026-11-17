@@ -1,0 +1,66 @@
+MISSÃO COSMO — REGISTRO AUTOMÁTICO NO GOOGLE SHEETS
+==================================================
+
+O jogo continua hospedado no GitHub Pages. Ao terminar uma batalha (vitória ou derrota),
+ele envia automaticamente nome, acertos, erros, total de perguntas, pontos, resultado,
+placar e personagem para uma planilha Google privada do proprietário. O jogador não
+precisa baixar nem exportar nada.
+
+IMPORTANTE
+----------
+O GitHub Pages não executa código de servidor. Por isso o registro usa Google Apps Script
+como endpoint e Google Sheets como armazenamento. A planilha fica na conta Google que
+criar/publicar o script; não publique a planilha como pública.
+
+CONFIGURAÇÃO (FAZER UMA ÚNICA VEZ)
+---------------------------------
+1. Entre em https://script.google.com/ com a conta Google do DONO do jogo.
+2. Clique em Novo projeto.
+3. Abra o arquivo Code.gs deste pacote, copie todo o conteúdo e cole no editor do Apps Script.
+4. Salve o projeto.
+5. No seletor de funções, escolha setup e clique em Executar.
+6. Autorize o acesso à sua conta Google.
+7. Abra o Registro de execução / Logs e copie a URL da planilha criada. Ela se chama
+   "Missão Cosmo - Resultados" e fica privada na conta do proprietário.
+8. No Apps Script, clique em Implantar > Nova implantação.
+9. Tipo: Aplicativo da web.
+10. Executar como: Eu (sua conta).
+11. Quem pode acessar: Qualquer pessoa. Isso é necessário para o jogo público enviar
+    resultados sem login do jogador. NÃO torne a planilha pública.
+12. Clique em Implantar, autorize se solicitado e copie a URL do Aplicativo da web
+    que termina em /exec.
+13. Abra game.js e localize a linha:
+    const GOOGLE_SCRIPT_URL = 'COLE_A_URL_DO_GOOGLE_APPS_SCRIPT_AQUI';
+14. Substitua o texto entre aspas pela URL /exec que você copiou. Não altere as aspas.
+15. Salve game.js e envie os arquivos do projeto ao repositório do GitHub Pages.
+
+COMO CONFERIR
+-------------
+1. Acesse o jogo publicado, informe um nome e conclua uma batalha.
+2. Aguarde alguns segundos e abra a planilha criada na etapa 7.
+3. Uma nova linha deve aparecer na aba Partidas.
+
+DADOS REGISTRADOS
+-----------------
+Data/hora do servidor, nome, acertos, erros, total de perguntas, pontuação (100 por
+acerto), vitória/derrota, placar do jogador, placar do adversário, personagem e ID único.
+
+ACESSO DO PROPRIETÁRIO
+---------------------
+Somente o proprietário e as pessoas a quem ele compartilhar a planilha terão acesso aos
+resultados. O painel de administração é a própria planilha Google, que permite filtrar,
+ordenar por pontuação e exportar para Excel/CSV. O jogo não expõe a leitura da planilha.
+
+LIMITAÇÃO DE SEGURANÇA
+---------------------
+Como o site é público e estático, a URL do endpoint fica visível no JavaScript. O endpoint
+valida os campos e evita duplicidade, mas isso não equivale a autenticação forte: alguém
+tecnicamente experiente pode tentar enviar registros falsos. Para competição com prêmio
+ou dados que exijam integridade forte, será necessário um backend com autenticação,
+limites de requisição e validação no servidor.
+
+OBSERVAÇÃO SOBRE O RESULTADO
+----------------------------
+Cada batalha concluída é registrada uma vez, tanto em vitória quanto em derrota. Sair
+antes de terminar a batalha não cria um registro. O envio é automático e não exige nenhuma
+ação do jogador.
