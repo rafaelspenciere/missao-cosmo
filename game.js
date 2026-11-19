@@ -87,8 +87,8 @@ const Q=[
 ["O que permitia ao U-2 voar em grandes altitudes?",["Asas longas e finas.","Motor supersônico.","Camuflagem contra radares."," Capacidade de voar debaixo d'água."]],
 ["Como a Coreia foi dividida?",["Pelo paralelo 38° Norte ","Por margens definidas pós guerra","A Coreia nunca se dividiu"," Dividiu pela interferência do Japão"]],
 ["Como a bomba termonuclear funciona?",["Por uma fusão de hidrogênio causada por uma explosão intensa"," Por fissão de urânio","Por uma cadeia de explosões em sequência","Pela liberação de dióxido de carbono"]],
-["Em que ano a União Soviética foi dissolvida?",["1991","1989","1985","1979"]],
-["Qual guerra dividiu a península em Coreia do Norte e Coreia do Sul?",["Guerra da Coreia","Guerra do Vietnã","Guerra do Golfo","Guerra do Afeganistão"]]
+["Qual era a função da ARPANET (1969)?",["Conectar computadores e compartilhar informações.","Criar redes sociais.","Substituir jornais e TVs.","Criar jogos eletrônicos."]],
+["O que aconteceu em 1983?",["Adoção do protocolo TCP/IP.","Criação da ARPANET.","Queda do Muro de Berlim.","Internet chegou ao Brasil."]]
 ];
 const shuf=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const S=Array.from({length:110},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4}));
