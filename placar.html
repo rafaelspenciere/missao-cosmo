@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Placar · Missão Cosmos 62</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="placar.css">
+</head>
+<body>
+<header>
+  <h1><img src="assets/logo.svg" alt="" class="hl">Placar</h1>
+  <div class="hb">
+    <button id="rf" title="Atualizar agora" aria-label="Atualizar">⟳</button>
+    <a id="play" href="index.html">▶ JOGAR</a>
+  </div>
+</header>
+
+<main>
+  <section class="card hero">
+    <div class="hero-t">🏆 Quadro de honra dos cosmonautas</div>
+    <div class="stats" id="stats"></div>
+  </section>
+
+  <section class="tools">
+    <div class="chips" id="chips">
+      <button class="chip on" data-f="todos">Todos</button>
+      <button class="chip" data-f="vitoria">🏅 Vitórias</button>
+      <button class="chip" data-f="derrota">💥 Derrotas</button>
+    </div>
+    <div class="row2">
+      <input id="q" type="search" maxlength="14" placeholder="Buscar cosmonauta" autocomplete="off">
+      <select id="ord" aria-label="Ordenar">
+        <option value="pontos">Maior pontuação</option>
+        <option value="recentes">Mais recentes</option>
+      </select>
+    </div>
+  </section>
+
+  <section id="lista" class="lista" aria-live="polite"></section>
+  <div class="upd" id="upd"></div>
+</main>
+
+<script src="placar.js"></script>
+</body>
+</html>
